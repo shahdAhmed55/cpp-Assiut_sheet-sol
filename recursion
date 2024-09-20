@@ -1,0 +1,18 @@
+//? c. Print from n to 1 --recursion
+#include<iostream>
+using namespace std;
+#include <algorithm>
+#include<string>
+int printnums(int n){
+if(n == 1){
+    return 1 ;
+}
+else{
+    cout << n << " " ;
+   return printnums(n - 1) ;
+}
+}
+int main (){
+    int n ; cin >> n;
+    cout << printnums(n) << endl;
+}
