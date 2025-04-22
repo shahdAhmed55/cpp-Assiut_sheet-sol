@@ -1,0 +1,80 @@
+// problem link ==> https://codeforces.com/contest/2103/problem/A
+// first solution
+#include <iostream>
+using namespace std;
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+#include <queue>
+#include <stack>
+#include <iomanip>
+#include <math.h>
+#include <algorithm>
+ 
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        int freq[101] = {0};
+        int a[n];
+ 
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+ 
+            cin >> a[i];
+ 
+            if (freq[a[i]] == 0)
+            {
+                freq[a[i]]++;
+                cnt++;
+            }
+            else{
+                continue;
+            }
+        }
+ 
+        cout << cnt << endl;
+    }
+}
+
+
+// second solution
+#include <iostream>
+using namespace std;
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+#include <queue>
+#include <stack>
+#include <iomanip>
+#include <math.h>
+#include <algorithm>
+ 
+int main()
+{
+int t; cin >> t;
+while(t--){
+    int n ;
+    cin >> n;
+    int a[101] = {false};
+    int b;
+    int cnt = 0;
+    for (int i = 0; i < n;i++){
+       
+        cin >> b;
+        if (!a[b])
+        {
+            a[b] = {true};
+            cnt++;
+        }
+    }
+ 
+ 
+    cout << cnt << endl;
+}
+}
