@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+#include <queue>
+#include <stack>
+#include <iomanip>
+#include <math.h>
+#include <algorithm>
+int main()
+{
+    stack<int> st;
+    string s;
+    cin >> s;
+    char c;
+    int h;
+    for (int i = 0; i < s.length(); i += 2)
+    {
+        s[i] = s[i] - '0';
+        if (s[i] != '+')
+        {
+            st.push(s[i]);
+        }
+    }
+    int cnt = 0;
+    vector<int> v;
+    while (!st.empty())
+    {
+        int v1 = st.top();
+        st.pop();
+        cnt++;
+        v.push_back(v1);
+    }
+
+    sort(v.begin(), v.end());
+    for (int i = 0; i < cnt; i++)
+    {
+        cout << v[i];
+        if (i == cnt - 1) break;
+        cout << "+";
+    }
+}
