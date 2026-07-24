@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+class clsQuRadar {
+private:
+    struct CarObservation {
+        string plateNumber;
+        string date;
+        string carType;
+        double speed;
+        bool seatbeltFastened;
+    };
+    struct ViolationDetail {
+        string description;
+        double fee;
+    };
+
+    string plates[100];
+    double totalAmounts[100];
+    int finesCount = 0;
+
+    string ruleNames[10];
+    int ruleCounts[10] = { 0 };
+    int rulesListCount = 0;
+
+    void updateFineRecord(string plate, double amount) {
+        for (int i = 0; i < finesCount; i++) {
+            if (plates[i] == plate) {
+                totalAmounts[i] += amount;
+                return;
+            }
+        }
+        plates[finesCount] = plate;
+        totalAmounts[finesCount] = amount;
+        finesCount++;
+    }
+
+    void updateRuleCount(string ruleName) {
+        for (int i = 0; i < rulesListCount; i++) {
+            if (ruleNames[i] == ruleName) {
+                ruleCounts[i]++;
+                return;
+            }
+        }
+        ruleNames[rulesListCount] = ruleName;
+        ruleCounts[rulesListCount] = 1;
+        rulesListCount++;
+    }
+
+public:
+
+    CarObservation car;
+    clsQuRadar(string plateNumber, string date, string carType, double speed, bool seatbeltFastened) {
+        car.plateNumber = plateNumber;
+        car.date = date;
+        car.carType = carType;
+        car.speed = speed;
+        car.seatbeltFastened = seatbeltFastened;
+    }
+    void processObservation() {
+        vector<ViolationDetail> violations;
+        double currentTotal = 0;
+
+        if (car.carType == "Truck" && car.speed > 60) {
+            violations.push_back({ "speed of " + to_string((int)car.speed) + " exceeded max allowed 60", 300.0 });
+            currentTotal += 300.0;
+            updateRuleCount("Truck Speed Rule");
+        }
+
+        if (car.carType == "Private" && car.speed > 80) {
+            violations.push_back({ "speed of " + to_string((int)car.speed) + " exceeded max allowed 80", 300.0 });
+            currentTotal += 300.0;
+            updateRuleCount("Private Car Speed Rule");
+        }
+
+        if (!car.seatbeltFastened) {
+            violations.push_back({ "Seatbelt not fastned", 100.0 });
+            currentTotal += 100.0;
+            updateRuleCount("Seatbelt Rule");
+        }
+
+        if (!violations.empty()) {
+            updateFineRecord(car.plateNumber, currentTotal);
+
+            cout << "Traffic for car " << car.plateNumber << endl;
+            cout << "Total amount: " << (int)currentTotal << " EGP" << endl;
+            cout << "Violations:" << endl;
+            for (size_t i = 0; i < violations.size(); i++) {
+                cout << "- " << violations[i].description << " : " << (int)violations[i].fee << " EGP" << endl;
+            }
+            cout << endl;
+        }
+    }
+
+    void getAllPossibleFines() {
+        cout << "\n--- getAllPossibleFines ---" << endl;
+        for (int i = 0; i < finesCount; i++) {
+            cout << "Plate: " << plates[i] << " | Total Amount: " << (int)totalAmounts[i] << " EGP" << endl;
+        }
+    }
+
+    void getViolationCountsReport() {
+        cout << "\n--- Violated Rules Count ---" << endl;
+        for (int i = 0; i < rulesListCount; i++) {
+            cout << "Rule: " << ruleNames[i] << " | Count: " << ruleCounts[i] << endl;
+        }
+    }
+};
+
+int main() {
+
+
+    clsQuRadar radar1("ABC1234", "2026-07-24", "Private", 94, false);
+
+    cout << "=== Processing Observations ===" << endl;
+    radar1.processObservation();
+
+    radar1.getAllPossibleFines();
+    radar1.getViolationCountsReport();
+
+    return 0;
+}
